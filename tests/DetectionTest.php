@@ -85,4 +85,32 @@ final class DetectionTest extends TestCase
         // echo var_export($impact);
         $this->assertIsArray($impact);
     }
+
+    public function testXssRepetitiveAttacks(): void {
+        $ips = Ips::getInstance();
+        $impact = $ips->detect("<script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script><script>alert(1)</script>");
+        // echo var_export($impact);
+        $this->assertIsArray($impact);
+    }
+
+    public function testLongDirectoryTraversalAndLocalFile(): void {
+        $ips = Ips::getInstance();
+        $impact = $ips->detect("../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00../../../etc/passwd%00");
+        // echo var_export($impact);
+        $this->assertIsArray($impact);
+    }
+
+    public function testFloodLogAttack(): void {
+        $ips = Ips::getInstance();
+        $impact = $ips->detect("ZXhhbXBsZS5waHA/PD9ldmFsKGFycmF5X3BvcCgkX0dFVCkpPz49PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==",'b64');
+        // echo var_export($impact);
+        $this->assertIsArray($impact);
+    }
+
+    public function testBypassRegex(): void {
+        $ips = Ips::getInstance();
+        $impact = $ips->detect("L1BsZWFzZSBzdWJtaXQgdGhlIHN0cmluZ1wKICAgICAgICB0byBoZWxwIHVzIG1ha2UgdGhlIFwKICAgICAgICBQSFBJRFMgYmV0dGVyLi8seT0oJ2FsZXJcCiAgICAgICAgdCcpLHg9dGhpcyx4PXhbeV0KICAgICAgICB4KCdJIGNhbnQgbGV0IHlvdSBoYXZlIGFsbCB0aGUgZnVuIHRob3JubWFrZXInKSwvYWJjIGFiY1wKICAgICAgICBhYmMgYWJjIGFiY1wKICAgICAgICBhYmNcCiAgICAgICAgLywvYWJjIGFiY1wKICAgICAgICBhYmMgYWJjIGFiY1wKICAgICAgICBhYmNcCiAgICAgICAgLw==",'b64');
+        // echo var_export($impact);
+        $this->assertIsArray($impact);
+    }
 }
