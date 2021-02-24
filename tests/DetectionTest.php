@@ -19,18 +19,18 @@ final class DetectionTest extends TestCase
         );
     }
 
-    public function testStringNull(): void {
+    public function testNullString(): void {
         $ips = Ips::getInstance();
         $this->expectError();
         $ips->detect(null);
     }
 
-    public function testStringBiasa(): void {
+    public function testNormalString(): void {
         $ips = Ips::getInstance();
         $this->assertFalse($ips->detect("hallo bro"));
     }
 
-    public function testStringSqliBase64(): void {
+    public function testSqliBase64Injection(): void {
         $ips = Ips::getInstance();
         $impact = $ips->detect("LTQ3MTQnIFVOSU9OIEFMTCBTRUxFQ1QgTlVMTCxOVUxMLE5VTEwsKFNFTEVDVCBDT05DQVQoMHg3MTc2NzE3YTcxLElGTlVMTChDQVNUKG5hbWFfdGFiZWwgQVMgQ0hBUiksMHgyMCksMHg2ZTcwNzk3MDY5NmQsSUZOVUxMKENBU1QobmFtYV9rb2xvbSBBUyBDSEFSKSwweDIwKSwweDZlNzA3OTcwNjk2ZCxJRk5VTEwoQ0FTVChuYW1hX2tvbG9tIEFTIENIQVIpLDB4MjApLDB4NmU3MDc5NzA2OTZkLElGTlVMTChDQVNUKG5hbWFfa29sb20gQVMgQ0hBUiksMHgyMCksMHg2ZTcwNzk3MDY5NmQsSUZOVUxMKENBU1QobmFtYV9rb2xvbSBBUyBDSEFSKSwweDIwKSwweDcxNzY3MDc2NzEpIEZST00gbmFtYV90YWJlbCBMSU1JVCAyODMyOCwxKSxOVUxMLE5VTEwsTlVMTCxOVUxMLE5VTEwsTlVMTC0tIC03",'b64');
         // echo var_export($impact);
